@@ -10,6 +10,8 @@ import { ProductList } from '@/features/products/ProductList';
 import { ProductCreate } from '@/features/products/ProductCreate';
 import { ProductEdit } from '@/features/products/ProductEdit';
 
+import { Shopping } from '@/features/shopping/Shopping';
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -31,6 +33,7 @@ export default function App() {
           <Route path="/products" element={<ProductList />} />
           <Route path="/products/create" element={<ProductCreate />} />
           <Route path="/products/:id/edit" element={<ProductEdit />} />
+          <Route path="/shop" element={<Shopping />} />
         </Route>
 
         {/* Redirect root to login */}

@@ -1,3 +1,5 @@
+import { PerPage } from './PerPage';
+
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -52,27 +54,18 @@ export function Pagination({
   const pages = generatePageNumbers();
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-2">
-        <select
-          value={perPage}
-          onChange={(e) => onPerPageChange(Number(e.target.value))}
-          className="px-3 py-2 border border-gray-300 rounded-lg bg-white text-text-primary focus:outline-none focus:ring-2 focus:ring-primary"
-        >
-          {perPageOptions.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-        <span className="text-text-secondary text-sm">Registros Visibles</span>
-      </div>
+    <div className="flex items-center justify-center gap-8">
+      <PerPage
+        value={perPage}
+        onChange={onPerPageChange}
+        options={perPageOptions}
+      />
 
       <div className="flex items-center gap-1">
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-2 border border-gray-300 rounded-lg text-text-primary hover:bg-background-light disabled:opacity-50 disabled:cursor-not-allowed transition"
+          className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-text-primary hover:bg-background-light disabled:opacity-50 disabled:cursor-not-allowed transition"
         >
           ‹
         </button>
@@ -84,7 +77,7 @@ export function Pagination({
             ) : (
               <button
                 onClick={() => onPageChange(page as number)}
-                className={`px-3 py-2 rounded-lg font-medium transition ${
+                className={`w-10 h-10 flex items-center justify-center rounded-full font-medium transition ${
                   currentPage === page
                     ? 'bg-primary text-white'
                     : 'bg-gray-100 text-text-primary hover:bg-gray-200'
@@ -99,7 +92,7 @@ export function Pagination({
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-3 py-2 border border-gray-300 rounded-lg text-text-primary hover:bg-background-light disabled:opacity-50 disabled:cursor-not-allowed transition"
+          className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-text-primary hover:bg-background-light disabled:opacity-50 disabled:cursor-not-allowed transition"
         >
           ›
         </button>

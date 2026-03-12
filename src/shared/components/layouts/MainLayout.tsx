@@ -14,7 +14,7 @@ export function MainLayout() {
   };
 
   return (
-    <div className="flex min-h-screen bg-background-light">
+    <div className="min-h-screen bg-background-light">
       {/* Overlay para móvil */}
       {sidebarOpen && (
         <div
@@ -25,7 +25,7 @@ export function MainLayout() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed sm:static w-64 h-screen bg-primary text-white transition-transform duration-300 z-40 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'
+        className={`fixed left-0 top-0 w-64 h-screen bg-primary text-white transition-transform duration-300 z-40 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'
           }`}
       >
         <div className="p-6 border-b border-primary-dark">
@@ -36,6 +36,13 @@ export function MainLayout() {
           />
         </div>
         <nav className="px-3 py-4">
+          <Link
+            to="/shop"
+            className="block px-4 py-2 rounded-lg hover:bg-primary-dark transition"
+            onClick={() => setSidebarOpen(false)}
+          >
+            Tienda
+          </Link>
           <Link
             to="/products"
             className="block px-4 py-2 rounded-lg hover:bg-primary-dark transition"
@@ -67,8 +74,8 @@ export function MainLayout() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-auto">
-        <header className="bg-white border-b border-gray-200">
+      <main className="sm:ml-64 overflow-visible">
+        <header className="bg-white border-b border-gray-200 sticky top-0 z-20">
           <div className="px-4 sm:px-6 py-4 flex items-center justify-between">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -88,14 +95,6 @@ export function MainLayout() {
                 />
               </svg>
             </button>
-            <img
-              src="/strappberry-logo.png"
-              alt="strAPPberry"
-              className="h-8 w-auto sm:hidden"
-            />
-            <div className="hidden sm:block">
-              <h2 className="text-xl font-semibold text-primary">Ordine App</h2>
-            </div>
           </div>
         </header>
         <div className="p-4 sm:p-6">
