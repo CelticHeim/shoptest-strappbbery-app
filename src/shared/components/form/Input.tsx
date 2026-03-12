@@ -22,8 +22,8 @@ export function Input({
       )}
       <input
         type={type}
-        className={`w-full px-4 py-3 bg-background-light text-text-secondary placeholder-text-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition ${className} ${
-          error ? 'ring-2 ring-status-danger' : ''
+        className={`w-full px-4 py-3 bg-gray-100 text-text-primary placeholder-gray-400 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition ${className} ${
+          error ? 'ring-2 ring-status-danger border-status-danger' : ''
         }`}
         {...props}
       />

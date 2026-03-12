@@ -31,7 +31,7 @@ export function Button({
     success: 'bg-status-success text-white hover:bg-green-600',
   };
 
-  const baseClasses = `px-6 py-3 rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${variantClasses[variant]} ${className}`;
+  const baseClasses = `px-6 py-2.5 rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${variantClasses[variant]} ${className}`;
 
   const buttonContent = (
     <>

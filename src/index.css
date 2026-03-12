@@ -1,31 +1,37 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #353C59;
+  --color-primary-dark: #2a2f47;
+  --color-primary-light: #F0F1F5;
+  
+  --color-secondary: #686B75;
+  --color-secondary-light: #F0F1F5;
+  
+  --color-accent: #D15253;
+  
+  --color-background-light: #F0F1F5;
+  --color-background-dark: #FFFFFF;
+  
+  --color-text-primary: #353C59;
+  --color-text-secondary: #686B75;
+  --color-text-light: #F0F1F5;
+  
+  --color-status-danger: #D15253;
+  --color-status-success: #4CAF50;
+  --color-status-warning: #FF9800;
+  --color-status-info: #2196F3;
+}
+
 @layer base {
-  :root {
-    /* Primary Colors */
-    --color-primary: #353C59;
-    --color-primary-light: #F0F1F5;
-    
-    /* Secondary Colors */
-    --color-secondary: #686B75;
-    --color-secondary-light: #F0F1F5;
-    
-    /* Accent Colors */
-    --color-accent: #D15253;
-    
-    /* Background Colors */
-    --color-background: #F0F1F5;
-    --color-background-dark: #FFFFFF;
-    
-    /* Text Colors */
-    --color-text-primary: #353C59;
-    --color-text-secondary: #686B75;
-    --color-text-light: #F0F1F5;
-    
-    /* Status Colors */
-    --color-danger: #D15253;
-    --color-success: #4CAF50;
-    --color-warning: #FF9800;
-    --color-info: #2196F3;
+  body {
+    @apply bg-background-light text-text-primary;
+  }
+
+  input,
+  textarea,
+  select {
+    @apply focus:outline-none;
   }
 }
+
