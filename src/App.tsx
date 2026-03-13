@@ -16,7 +16,7 @@ import { ProductCreate } from '@/features/products/ProductCreate';
 import { ProductEdit } from '@/features/products/ProductEdit';
 
 import { Shopping } from '@/features/shopping/Shopping';
-import { CheckoutIndex } from '@/features/checkout/index.tsx';
+import { CheckoutIndex } from '@/features/checkout';
 import { PurchasesIndex } from '@/features/purchases';
 import { TransactionsIndex } from '@/features/transactions';
 

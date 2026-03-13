@@ -1,6 +1,6 @@
-import client from '../lib/axios';
-import type { ApiResponse, Paginate } from '../types/common';
-import type { Product } from '../types/entities/Product';
+import client from '@/shared/lib/axios';
+import type { ApiResponse, Paginate } from '@/shared/types/common';
+import type { Product } from '@/shared/types/entities/Product';
 
 export const productsApi = {
   list: async (page = 1, perPage = 10, search?: string) => {

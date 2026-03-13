@@ -1,6 +1,6 @@
-import client from '../lib/axios';
-import type { ApiResponse } from '../types/common';
-import type { User } from '../types/entities/User';
+import client from '@/shared/lib/axios';
+import type { ApiResponse } from '@/shared/types/common';
+import type { User } from '@/shared/types/entities/User';
 
 export interface LoginResponse {
   access_token: string;

@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import type { User } from '@/shared/types/User';
+import type { User } from '@/shared/types/entities/User';
 
 interface AdminRouteProps {
   children: React.ReactNode;

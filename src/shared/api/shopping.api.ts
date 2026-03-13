@@ -1,6 +1,6 @@
-import client from '../lib/axios';
+import client from '@/shared/lib/axios';
 import type { Product } from '@/shared/types/entities/Product';
-import type { ApiResponse, Paginate } from '../types/common';
+import type { ApiResponse, Paginate } from '@/shared/types/common';
 
 export const shoppingApi = {
   index: async (page: number = 1, perPage: number, search: string = '', category: string | null = null) => {
