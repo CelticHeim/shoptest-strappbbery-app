@@ -46,13 +46,29 @@ export function MainLayout() {
         </div>
         <nav className="px-3 py-4">
           {isCustomer && (
-            <Link
-              to="/shop"
-              className="block px-4 py-2 rounded-lg hover:bg-primary-dark transition"
-              onClick={() => setSidebarOpen(false)}
-            >
-              Tienda
-            </Link>
+            <>
+              <Link
+                to="/shop"
+                className="block px-4 py-2 rounded-lg hover:bg-primary-dark transition"
+                onClick={() => setSidebarOpen(false)}
+              >
+                Tienda
+              </Link>
+              <Link
+                to="/purchases"
+                className="block px-4 py-2 rounded-lg hover:bg-primary-dark transition"
+                onClick={() => setSidebarOpen(false)}
+              >
+                Mis Compras
+              </Link>
+              <Link
+                to="/transactions"
+                className="block px-4 py-2 rounded-lg hover:bg-primary-dark transition"
+                onClick={() => setSidebarOpen(false)}
+              >
+                Transacciones MP
+              </Link>
+            </>
           )}
 
           {isAdmin && (

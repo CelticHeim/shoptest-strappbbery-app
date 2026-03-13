@@ -33,16 +33,17 @@ export function useCheckout() {
         })),
       };
 
-      const response = await checkout.createOrder(payload);
+      const response = (await checkout.createOrder(payload)) as any;
+      const orderData = response.data.data; // { order_id, total_amount }
 
       setState((prev) => ({
         ...prev,
-        orderId: response.data.data.order_id,
-        totalAmount: response.data.data.total_amount,
+        orderId: orderData.order_id,
+        totalAmount: orderData.total_amount,
         loading: false,
       }));
 
-      return response.data.data;
+      return orderData;
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || 'Error creating checkout order';
       setState((prev) => ({
@@ -78,7 +79,8 @@ export function useCheckout() {
         })),
       };
 
-      const response = await checkout.processPayment(payload);
+      const response = (await checkout.processPayment(payload)) as any;
+      const paymentData = response.data.data; // { id, status, total_amount, ... }
 
       setState((prev) => ({
         ...prev,
@@ -86,7 +88,7 @@ export function useCheckout() {
         loading: false,
       }));
 
-      return response.data.data;
+      return paymentData;
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || 'Error processing payment';
       setState((prev) => ({

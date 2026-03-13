@@ -16,7 +16,9 @@ import { ProductCreate } from '@/features/products/ProductCreate';
 import { ProductEdit } from '@/features/products/ProductEdit';
 
 import { Shopping } from '@/features/shopping/Shopping';
-import { CheckoutIndex } from '@/features/Checkout/index';
+import { CheckoutIndex } from '@/features/checkout/index';
+import { PurchasesIndex } from '@/features/purchases';
+import { TransactionsIndex } from '@/features/transactions';
 
 export default function App() {
   return (
@@ -44,6 +46,8 @@ export default function App() {
           >
             <Route path="/shop" element={<Shopping />} />
             <Route path="/checkout" element={<CheckoutIndex />} />
+            <Route path="/purchases" element={<PurchasesIndex />} />
+            <Route path="/transactions" element={<TransactionsIndex />} />
           </Route>
 
           {/* Protected Routes - Admin Routes */}

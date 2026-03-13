@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { useCart } from '@/shared/context/CartContext';
 import { useCheckout } from '@/shared/hooks/useCheckout';
 import { Button } from '@/shared/components/buttons/Button';
@@ -10,6 +11,7 @@ import { PaymentSuccess } from './components/PaymentSuccess';
 
 export function CheckoutIndex() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { items, clearCart } = useCart();
   const checkout = useCheckout();
   const [step, setStep] = useState<'summary' | 'payment' | 'success'>('summary');
@@ -48,6 +50,9 @@ export function CheckoutIndex() {
 
       // Limpiar el carrito
       clearCart();
+
+      // Invalidar el cache de purchases para refetch automático
+      await queryClient.invalidateQueries({ queryKey: ['purchases'] });
 
       // Obtener el historial de compras actualizado
       const history = await checkout.getPurchaseHistory(1);
