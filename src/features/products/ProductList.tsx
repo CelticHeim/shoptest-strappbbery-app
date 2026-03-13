@@ -7,12 +7,20 @@ import { Button } from '@/shared/components/buttons';
 import { SearchBar } from '@/shared/components/ui';
 import { Pagination } from '@/shared/components/ui';
 import { formatCurrency } from '@/shared/helpers/format';
+import { PRODUCT_CATEGORIES } from '@/shared/constants/categories';
 
 export function ProductList() {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [perPage, setPerPage] = useState(10);
+
+  // Helper function to get category label in Spanish
+  const getCategoryLabel = (categoryValue: string | undefined): string => {
+    if (!categoryValue) return 'N/A';
+    const category = PRODUCT_CATEGORIES.find(cat => cat.value === categoryValue);
+    return category ? category.label : categoryValue;
+  };
 
   // Debounce search to avoid excessive API calls
   const debouncedSearch = useDebounce(search, 300);
@@ -105,7 +113,7 @@ export function ProductList() {
                     </td>
                     <td className="px-4 py-3 text-sm">
                       <span className="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-xs font-medium">
-                        {product.category || 'N/A'}
+                        {getCategoryLabel(product.category)}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-center font-semibold text-status-danger">
@@ -141,13 +149,14 @@ export function ProductList() {
       )}
 
       {/* Pagination Footer */}
-      {pagination.total && (
+      {pagination.total > 0 && (
         <div className="fixed bottom-0 left-0 right-0 sm:left-64 bg-white border-t border-gray-200 p-6">
           <Pagination
             currentPage={page}
             totalPages={pagination.last_page}
             onPageChange={setPage}
             perPage={perPage}
+            total={pagination.total}
             onPerPageChange={(newPerPage) => {
               setPerPage(newPerPage);
               setPage(1);

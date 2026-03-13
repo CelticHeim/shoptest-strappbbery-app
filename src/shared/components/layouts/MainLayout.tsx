@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
+import { ShoppingCart } from 'lucide-react';
+import { useCart } from '@/shared/context/CartContext';
+import { CartDropdown } from '@/features/shopping/components/CartDropdown';
 
 export function MainLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const navigate = useNavigate();
+  const { getTotalItems } = useCart();
   const user = localStorage.getItem('user');
   const userData = user ? JSON.parse(user) : null;
 
@@ -75,8 +80,8 @@ export function MainLayout() {
 
       {/* Main Content */}
       <main className="sm:ml-64 overflow-visible">
-        <header className="bg-white border-b border-gray-200 sticky top-0 z-20">
-          <div className="px-4 sm:px-6 py-4 flex items-center justify-between">
+        <header className="bg-white border-b border-gray-200 sticky top-0 z-30 overflow-visible">
+          <div className="px-4 sm:px-6 py-4 flex items-center w-full">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="sm:hidden p-2 text-primary hover:bg-gray-100 rounded-lg transition"
@@ -95,6 +100,39 @@ export function MainLayout() {
                 />
               </svg>
             </button>
+
+            {/* Right Side: User Name + Cart */}
+            <div className="flex items-center gap-6 ml-auto">
+              {/* User Name */}
+              <div className="text-right hidden sm:block">
+                <p className="text-sm font-semibold text-text-primary">
+                  {userData?.name || 'Usuario'}
+                </p>
+                <p className="text-xs text-text-secondary">{userData?.email}</p>
+              </div>
+
+              {/* Cart Button with Badge */}
+              <div className="relative">
+                <button
+                  onClick={() => setIsCartOpen(!isCartOpen)}
+                  className="relative p-2 text-primary hover:bg-gray-100 rounded-lg transition"
+                  title="Mi carrito"
+                  data-cart-button
+                >
+                  <ShoppingCart className="w-6 h-6" />
+                  {getTotalItems() > 0 && (
+                    <span className="absolute top-0 right-0 bg-status-danger text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                      {getTotalItems()}
+                    </span>
+                  )}
+                </button>
+
+                {/* Cart Dropdown - positioned to the right */}
+                {isCartOpen && (
+                  <CartDropdown isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+                )}
+              </div>
+            </div>
           </div>
         </header>
         <div className="p-4 sm:p-6">

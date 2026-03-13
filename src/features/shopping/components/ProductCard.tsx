@@ -2,17 +2,36 @@ import type { Product } from '@/shared/types/entities/Product';
 import { ShoppingCart } from 'lucide-react';
 import { formatCurrency } from '@/shared/helpers/format';
 import { PRODUCT_CATEGORIES } from '@/shared/constants/categories';
+import { useCart } from '@/shared/context/CartContext';
+import { useToast } from '@/shared/context/ToastContext';
+import { useProductDetail } from '@/shared/context/ProductDetailContext';
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart: (product: Product) => void;
 }
 
-export function ProductCard({ product, onAddToCart }: ProductCardProps) {
+export function ProductCard({ product }: ProductCardProps) {
+  const { addToCart, items } = useCart();
+  const { addToast } = useToast();
+  const { openDetail } = useProductDetail();
+  
   // Find the category label in Spanish
   const categoryLabel = PRODUCT_CATEGORIES.find(cat => cat.value === product.category)?.label || product.category;
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addToCart(product);
+    // Find the quantity of this product in the cart
+    const cartItem = items.find(item => item.id === product.id);
+    const newQuantity = cartItem ? cartItem.quantity + 1 : 1;
+    addToast(`${product.name} agregado al carrito (${newQuantity})`, 'success', 2500);
+  };
+
   return (
-    <div className="bg-white rounded-lg shadow hover:shadow-lg transition border border-gray-200">
+    <div
+      onClick={() => openDetail(product)}
+      className="bg-white rounded-lg shadow hover:shadow-lg transition border border-gray-200 cursor-pointer group"
+    >
       {/* Image placeholder */}
       <div className="w-full h-48 bg-gray-100 rounded-t-lg flex items-center justify-center">
         {product.image ? (
@@ -50,11 +69,12 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
             {formatCurrency(product.price)}
           </span>
           <button
-            onClick={() => onAddToCart(product)}
-            className="p-2 bg-primary text-white hover:bg-primary/90 rounded-lg transition"
+            onClick={handleAddToCart}
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-white hover:bg-primary/90 rounded-lg transition font-medium text-sm"
             title="Agregar al carrito"
           >
-            <ShoppingCart className="w-5 h-5" />
+            <ShoppingCart className="w-4 h-4" />
+            Agregar
           </button>
         </div>
       </div>
