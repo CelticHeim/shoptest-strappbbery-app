@@ -1,5 +1,5 @@
 import api from '@/shared/lib/axios';
-import type { MercadoPagoPaymentStatus } from '@/types/entities/transaction';
+import type { MercadoPagoPaymentStatus } from '@/shared/types/entities/Transaction';
 
 export const transactions = {
   // Obtener todas las transacciones del usuario

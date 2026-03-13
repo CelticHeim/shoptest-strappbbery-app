@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 import { useCartSafe } from '@/shared/context/CartContext';
-import { CartDropdown } from '@/features/shopping/components/CartDropdown';
+import { CartDropdown } from '@/features/Shopping/components/CartDropdown';
 import type { User } from '@/shared/types/entities/User';
 
 export function MainLayout() {

@@ -1,5 +1,5 @@
 import api from '@/shared/lib/axios';
-import type { PurchasesResponse } from '@/types/entities/purchase';
+import type { PurchasesResponse } from '@/shared/types/entities/Purchase';
 
 interface GetPurchasesParams {
   page?: number;

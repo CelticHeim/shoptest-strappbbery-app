@@ -1,4 +1,4 @@
-import type { MercadoPagoPaymentStatus } from '@/types/entities/transaction';
+import type { MercadoPagoPaymentStatus } from '@/shared/types/entities/Transaction';
 
 interface PaymentStatusBadgeProps {
   status: string;

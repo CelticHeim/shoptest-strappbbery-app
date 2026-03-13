@@ -8,17 +8,17 @@ import { ToastProvider } from '@/shared/context/ToastContext';
 import { ProductDetailProvider } from '@/shared/context/ProductDetailContext';
 import { ToastContainer } from '@/shared/components/common/ToastContainer';
 
-import { Login } from '@/features/auth/Login';
-import { Register } from '@/features/auth/Register';
+import { Login } from '@/features/Auth/Login';
+import { Register } from '@/features/Auth/Register';
 
-import { ProductList } from '@/features/products/ProductList';
-import { ProductCreate } from '@/features/products/ProductCreate';
-import { ProductEdit } from '@/features/products/ProductEdit';
+import { ProductList } from '@/features/Products/ProductList';
+import { ProductCreate } from '@/features/Products/ProductCreate';
+import { ProductEdit } from '@/features/Products/ProductEdit';
 
-import { Shopping } from '@/features/shopping/Shopping';
-import { CheckoutIndex } from '@/features/checkout';
-import { PurchasesIndex } from '@/features/purchases';
-import { TransactionsIndex } from '@/features/transactions';
+import { Shopping } from '@/features/Shopping/Shopping';
+import { CheckoutIndex } from '@/features/Checkout';
+import { PurchasesIndex } from '@/features/Purchases';
+import { TransactionsIndex } from '@/features/Transactions';
 
 export default function App() {
   return (

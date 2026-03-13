@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { transactions } from '@/shared/api/transactions.api';
-import type { MercadoPagoPaymentStatus } from '@/types/entities/transaction';
+import type { MercadoPagoPaymentStatus } from '@/shared/types/entities/Transaction';
 
 export function useTransactionStatus(paymentId: string | null) {
   const queryClient = useQueryClient();

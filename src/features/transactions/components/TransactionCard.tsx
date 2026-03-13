@@ -3,7 +3,7 @@ import { RefreshCw, Copy, Check } from 'lucide-react';
 import { useTransactionStatus } from '@/shared/hooks/useTransactionStatus';
 import { PaymentStatusBadge } from './PaymentStatusBadge';
 import { formatNumber, toNumber } from '@/shared/helpers/format';
-import type { Transaction } from '@/types/entities/transaction';
+import type { Transaction } from '@/shared/types/entities/Transaction';
 
 interface TransactionCardProps {
   transaction: Transaction;

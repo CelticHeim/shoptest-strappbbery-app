@@ -1,6 +1,6 @@
 import { formatNumber, toNumber } from '@/shared/helpers/format';
 import { Badge } from '@/shared/components/ui/Badge';
-import type { Purchase } from '@/types/entities/purchase';
+import type { Purchase } from '@/shared/types/entities/Purchase';
 
 interface PurchaseCardProps {
   purchase: Purchase;
