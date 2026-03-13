@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
-import { useCart } from '@/shared/context/CartContext';
+import { useCartSafe } from '@/shared/context/CartContext';
 import { CartDropdown } from '@/features/shopping/components/CartDropdown';
+import type { User } from '@/shared/types/User';
 
 export function MainLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const navigate = useNavigate();
-  const { getTotalItems } = useCart();
+  const { getTotalItems } = useCartSafe();
   const user = localStorage.getItem('user');
-  const userData = user ? JSON.parse(user) : null;
+  const userData: User | null = user ? JSON.parse(user) : null;
+
+  const isAdmin = userData?.role === 'admin';
+  const isCustomer = userData?.role === 'customer';
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');
@@ -41,27 +45,34 @@ export function MainLayout() {
           />
         </div>
         <nav className="px-3 py-4">
-          <Link
-            to="/shop"
-            className="block px-4 py-2 rounded-lg hover:bg-primary-dark transition"
-            onClick={() => setSidebarOpen(false)}
-          >
-            Tienda
-          </Link>
-          <Link
-            to="/products"
-            className="block px-4 py-2 rounded-lg hover:bg-primary-dark transition"
-            onClick={() => setSidebarOpen(false)}
-          >
-            Productos
-          </Link>
-          <Link
-            to="/products/create"
-            className="block px-4 py-2 rounded-lg hover:bg-primary-dark transition"
-            onClick={() => setSidebarOpen(false)}
-          >
-            Crear Producto
-          </Link>
+          {isCustomer && (
+            <Link
+              to="/shop"
+              className="block px-4 py-2 rounded-lg hover:bg-primary-dark transition"
+              onClick={() => setSidebarOpen(false)}
+            >
+              Tienda
+            </Link>
+          )}
+
+          {isAdmin && (
+            <>
+              <Link
+                to="/products"
+                className="block px-4 py-2 rounded-lg hover:bg-primary-dark transition"
+                onClick={() => setSidebarOpen(false)}
+              >
+                Productos
+              </Link>
+              <Link
+                to="/products/create"
+                className="block px-4 py-2 rounded-lg hover:bg-primary-dark transition"
+                onClick={() => setSidebarOpen(false)}
+              >
+                Crear Producto
+              </Link>
+            </>
+          )}
         </nav>
         <div className="absolute bottom-0 w-64 p-6 border-t border-primary-dark">
           <div className="mb-4">
@@ -111,27 +122,29 @@ export function MainLayout() {
                 <p className="text-xs text-text-secondary">{userData?.email}</p>
               </div>
 
-              {/* Cart Button with Badge */}
-              <div className="relative">
-                <button
-                  onClick={() => setIsCartOpen(!isCartOpen)}
-                  className="relative p-2 text-primary hover:bg-gray-100 rounded-lg transition"
-                  title="Mi carrito"
-                  data-cart-button
-                >
-                  <ShoppingCart className="w-6 h-6" />
-                  {getTotalItems() > 0 && (
-                    <span className="absolute top-0 right-0 bg-status-danger text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                      {getTotalItems()}
-                    </span>
-                  )}
-                </button>
+              {/* Cart Button with Badge - Only for customers */}
+              {isCustomer && (
+                <div className="relative">
+                  <button
+                    onClick={() => setIsCartOpen(!isCartOpen)}
+                    className="relative p-2 text-primary hover:bg-gray-100 rounded-lg transition"
+                    title="Mi carrito"
+                    data-cart-button
+                  >
+                    <ShoppingCart className="w-6 h-6" />
+                    {getTotalItems() > 0 && (
+                      <span className="absolute top-0 right-0 bg-status-danger text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                        {getTotalItems()}
+                      </span>
+                    )}
+                  </button>
 
-                {/* Cart Dropdown - positioned to the right */}
-                {isCartOpen && (
-                  <CartDropdown isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-                )}
-              </div>
+                  {/* Cart Dropdown - positioned to the right */}
+                  {isCartOpen && (
+                    <CartDropdown isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </header>

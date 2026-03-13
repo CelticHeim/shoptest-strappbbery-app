@@ -115,3 +115,22 @@ export function useCart() {
   }
   return context;
 }
+
+export function useCartSafe() {
+  const context = useContext(CartContext);
+  
+  // Return a safe default if CartProvider is not available
+  if (context === undefined) {
+    return {
+      items: [],
+      addToCart: () => {},
+      removeFromCart: () => {},
+      updateQuantity: () => {},
+      clearCart: () => {},
+      getTotalItems: () => 0,
+      getTotalPrice: () => 0,
+    } as CartContextType;
+  }
+  
+  return context;
+}

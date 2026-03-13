@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthLayout } from '@/shared/components/layouts';
 import { MainLayout } from '@/shared/components/layouts';
-import { ProtectedRoute } from '@/shared/components/ProtectedRoute';
+import { AdminRoute } from '@/shared/components/AdminRoute';
+import { CustomerRoute } from '@/shared/components/CustomerRoute';
 import { CartProvider } from '@/shared/context/CartContext';
 import { ToastProvider } from '@/shared/context/ToastContext';
 import { ProductDetailProvider } from '@/shared/context/ProductDetailContext';
@@ -28,22 +29,34 @@ export default function App() {
             <Route path="/register" element={<Register />} />
           </Route>
 
-          {/* Protected Routes */}
+          {/* Protected Routes - Customer Routes */}
           <Route
             element={
-              <ProtectedRoute>
+              <CustomerRoute>
                 <CartProvider>
                   <ProductDetailProvider>
                     <MainLayout />
                   </ProductDetailProvider>
                 </CartProvider>
-              </ProtectedRoute>
+              </CustomerRoute>
+            }
+          >
+            <Route path="/shop" element={<Shopping />} />
+          </Route>
+
+          {/* Protected Routes - Admin Routes */}
+          <Route
+            element={
+              <AdminRoute>
+                <ProductDetailProvider>
+                  <MainLayout />
+                </ProductDetailProvider>
+              </AdminRoute>
             }
           >
             <Route path="/products" element={<ProductList />} />
             <Route path="/products/create" element={<ProductCreate />} />
             <Route path="/products/:id/edit" element={<ProductEdit />} />
-            <Route path="/shop" element={<Shopping />} />
           </Route>
 
           {/* Redirect root to login */}
