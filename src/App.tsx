@@ -16,6 +16,7 @@ import { ProductCreate } from '@/features/products/ProductCreate';
 import { ProductEdit } from '@/features/products/ProductEdit';
 
 import { Shopping } from '@/features/shopping/Shopping';
+import { CheckoutIndex } from '@/features/Checkout/index';
 
 export default function App() {
   return (
@@ -42,6 +43,7 @@ export default function App() {
             }
           >
             <Route path="/shop" element={<Shopping />} />
+            <Route path="/checkout" element={<CheckoutIndex />} />
           </Route>
 
           {/* Protected Routes - Admin Routes */}

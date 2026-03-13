@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X, Minus, Plus, Trash2 } from 'lucide-react';
 import { useCart } from '@/shared/context/CartContext';
 import { formatCurrency } from '@/shared/helpers/format';
@@ -9,6 +10,7 @@ interface CartDropdownProps {
 }
 
 export function CartDropdown({ isOpen, onClose }: CartDropdownProps) {
+  const navigate = useNavigate();
   const { items, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCart();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -157,7 +159,13 @@ export function CartDropdown({ isOpen, onClose }: CartDropdownProps) {
                 {formatCurrency(getTotalPrice())}
               </span>
             </div>
-            <button className="w-full px-4 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition font-semibold text-sm">
+            <button
+              onClick={() => {
+                navigate('/checkout');
+                onClose();
+              }}
+              className="w-full px-4 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition font-semibold text-sm"
+            >
               Comprar ahora
             </button>
             <button
