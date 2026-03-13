@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -5,8 +6,9 @@ import { z } from 'zod';
 import { Input } from '@/shared/components/form';
 import { Textarea } from '@/shared/components/form';
 import { Select } from '@/shared/components/form';
-import { FileInput } from '@/shared/components/form';
+import { ImageUpload } from '@/shared/components/form';
 import { Button } from '@/shared/components/buttons';
+import { PRODUCT_CATEGORIES } from '@/shared/constants/categories';
 import { useCreateProduct } from './hooks/useProducts';
 
 const createProductSchema = z.object({
@@ -22,21 +24,38 @@ type CreateProductFormData = z.infer<typeof createProductSchema>;
 export function ProductCreate() {
   const navigate = useNavigate();
   const createProduct = useCreateProduct();
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<CreateProductFormData>({
     resolver: zodResolver(createProductSchema),
   });
 
   const onSubmit = async (data: CreateProductFormData) => {
     try {
-      await createProduct.mutateAsync(data);
+      const submitData = {
+        ...data,
+        image: selectedImage || undefined,
+      };
+      await createProduct.mutateAsync(submitData);
       navigate('/products');
     } catch (error: any) {
-      console.error('Error al crear producto:', error);
+      // Mostrar errores del servidor en los campos
+      if (error.response?.data?.errors) {
+        const serverErrors = error.response.data.errors;
+        Object.keys(serverErrors).forEach((field) => {
+          setError(field as keyof CreateProductFormData, {
+            type: 'server',
+            message: serverErrors[field][0],
+          });
+        });
+      } else {
+        console.error('Error al crear producto:', error);
+      }
     }
   };
 
@@ -64,10 +83,10 @@ export function ProductCreate() {
           rows={4}
         />
 
-        <FileInput
-          {...register('image')}
+        <ImageUpload
           label="Imagen del Producto"
-          accept="image/*"
+          onImageChange={(file) => setSelectedImage(file)}
+          error={errors.image?.message}
         />
 
         <Input
@@ -83,13 +102,7 @@ export function ProductCreate() {
           {...register('category')}
           label="Categoría"
           placeholder="Selecciona una categoría"
-          options={[
-            { value: 'Electronics', label: 'Electrónica' },
-            { value: 'Computers', label: 'Computadoras' },
-            { value: 'Smartphones', label: 'Teléfonos' },
-            { value: 'Accessories', label: 'Accesorios' },
-            { value: 'Other', label: 'Otros' },
-          ]}
+          options={PRODUCT_CATEGORIES}
         />
 
         <div className="flex gap-4 pt-4">

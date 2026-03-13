@@ -76,6 +76,7 @@ export function ProductList() {
                   <th className="px-4 py-3 text-left">Imagen</th>
                   <th className="px-4 py-3 text-left">Nombre</th>
                   <th className="px-4 py-3 text-left">Descripción</th>
+                  <th className="px-4 py-3 text-left">Categoría</th>
                   <th className="px-4 py-3 text-center">Precio</th>
                   <th className="px-4 py-3 text-center">Acciones</th>
                 </tr>
@@ -101,6 +102,11 @@ export function ProductList() {
                     </td>
                     <td className="px-4 py-3 text-text-secondary text-sm">
                       {product.description || 'N/A'}
+                    </td>
+                    <td className="px-4 py-3 text-sm">
+                      <span className="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-xs font-medium">
+                        {product.category || 'N/A'}
+                      </span>
                     </td>
                     <td className="px-4 py-3 text-center font-semibold text-status-danger">
                       {formatCurrency(product.price)}

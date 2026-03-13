@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -5,8 +6,9 @@ import { z } from 'zod';
 import { Input } from '@/shared/components/form';
 import { Textarea } from '@/shared/components/form';
 import { Select } from '@/shared/components/form';
-import { FileInput } from '@/shared/components/form';
+import { ImageUpload } from '@/shared/components/form';
 import { Button } from '@/shared/components/buttons';
+import { PRODUCT_CATEGORIES } from '@/shared/constants/categories';
 import { useProduct, useUpdateProduct } from './hooks/useProducts';
 
 const updateProductSchema = z.object({
@@ -26,11 +28,13 @@ export function ProductEdit() {
 
   const { data, isLoading, error } = useProduct(productId);
   const updateProduct = useUpdateProduct();
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<UpdateProductFormData>({
     resolver: zodResolver(updateProductSchema),
     values: {
@@ -43,10 +47,25 @@ export function ProductEdit() {
 
   const onSubmit = async (formData: UpdateProductFormData) => {
     try {
-      await updateProduct.mutateAsync({ id: productId, data: formData });
+      const submitData = {
+        ...formData,
+        image: selectedImage || undefined,
+      };
+      await updateProduct.mutateAsync({ id: productId, data: submitData });
       navigate('/products');
     } catch (error: any) {
-      console.error('Error al actualizar producto:', error);
+      // Mostrar errores del servidor en los campos
+      if (error.response?.data?.errors) {
+        const serverErrors = error.response.data.errors;
+        Object.keys(serverErrors).forEach((field) => {
+          setError(field as keyof UpdateProductFormData, {
+            type: 'server',
+            message: serverErrors[field][0],
+          });
+        });
+      } else {
+        console.error('Error al actualizar producto:', error);
+      }
     }
   };
 
@@ -57,6 +76,8 @@ export function ProductEdit() {
   if (error) {
     return <div className="text-center py-8 text-status-danger">Error al cargar el producto</div>;
   }
+
+  const imageUrl = data?.data?.image;
 
   return (
     <div className="flex justify-center">
@@ -82,10 +103,11 @@ export function ProductEdit() {
           rows={4}
         />
 
-        <FileInput
-          {...register('image')}
+        <ImageUpload
           label="Imagen del Producto"
-          accept="image/*"
+          preview={imageUrl}
+          onImageChange={(file) => setSelectedImage(file)}
+          error={errors.image?.message}
         />
 
         <Input
@@ -101,13 +123,7 @@ export function ProductEdit() {
           {...register('category')}
           label="Categoría"
           placeholder="Selecciona una categoría"
-          options={[
-            { value: 'Electronics', label: 'Electrónica' },
-            { value: 'Computers', label: 'Computadoras' },
-            { value: 'Smartphones', label: 'Teléfonos' },
-            { value: 'Accessories', label: 'Accesorios' },
-            { value: 'Other', label: 'Otros' },
-          ]}
+          options={PRODUCT_CATEGORIES}
         />
 
         <div className="flex gap-4 pt-4">

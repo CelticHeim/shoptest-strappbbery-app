@@ -6,6 +6,7 @@ import { Pagination } from '@/shared/components/ui';
 import { SearchBar } from '@/shared/components/ui';
 import { ProductCard } from './components/ProductCard';
 import { ButtonGroup } from './components/ButtonGroup';
+import { PRODUCT_CATEGORIES } from '@/shared/constants/categories';
 import type { Product } from '@/shared/types/entities/Product';
 
 export function Shopping() {
@@ -23,15 +24,18 @@ export function Shopping() {
     setPage(1);
   }, [debouncedSearch]);
 
+  // Resetear página a 1 cuando cambia la categoría
+  useEffect(() => {
+    setPage(1);
+  }, [selectedCategory]);
+
   const { data, isPending, error } = useShopping(page, perPage, debouncedSearch);
 
   const products = data?.data?.data || [];
   const pagination = data?.data || {};
 
-  // Extract unique categories from products
-  const categories = Array.from(
-    new Set(products.map((p) => p.category).filter(Boolean) as string[])
-  );
+  // Use predefined categories with labels
+  const categories = PRODUCT_CATEGORIES;
 
   // Filter products by category
   const filteredProducts = selectedCategory
@@ -73,7 +77,7 @@ export function Shopping() {
       </div>
 
       {/* Category Buttons */}
-      {categories.length > 0 && (
+      {!isPending && products.length > 0 && (
         <div className="mb-6">
           <ButtonGroup
             categories={categories}

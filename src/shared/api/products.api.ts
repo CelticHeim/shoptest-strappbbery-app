@@ -16,11 +16,56 @@ export const productsApi = {
   },
 
   create: async (data: Omit<Product, 'id' | 'created_at' | 'updated_at'>) => {
+    // Check if there's a file to upload
+    const hasFile = data.image instanceof File;
+    
+    if (hasFile) {
+      // Create FormData for multipart request
+      const formData = new FormData();
+      formData.append('name', data.name);
+      formData.append('price', String(data.price));
+      if (data.category) formData.append('category', data.category);
+      if (data.description) formData.append('description', data.description);
+      if (data.image instanceof File) formData.append('image', data.image);
+
+      const response = await client.post<ApiResponse<Product>>('/products', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    }
+
+    // Send as JSON if no file
     const response = await client.post<ApiResponse<Product>>('/products', data);
     return response.data;
   },
 
   update: async (id: number, data: Partial<Product>) => {
+    // Check if there's a file to upload
+    const hasFile = data.image instanceof File;
+
+    if (hasFile) {
+      // Create FormData for multipart request
+      const formData = new FormData();
+      if (data.name) formData.append('name', data.name);
+      if (data.price) formData.append('price', String(data.price));
+      if (data.category) formData.append('category', data.category);
+      if (data.description) formData.append('description', data.description);
+      if (data.image instanceof File) formData.append('image', data.image);
+
+      // Add _method for PUT request (Laravel requirement for multipart)
+      formData.append('_method', 'PUT');
+
+      const response = await client.post<ApiResponse<Product>>(`/products/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    }
+
+    // Send as JSON if no file
     const response = await client.put<ApiResponse<Product>>(`/products/${id}`, data);
     return response.data;
   },

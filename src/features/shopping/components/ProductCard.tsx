@@ -1,6 +1,7 @@
 import type { Product } from '@/shared/types/entities/Product';
 import { ShoppingCart } from 'lucide-react';
 import { formatCurrency } from '@/shared/helpers/format';
+import { PRODUCT_CATEGORIES } from '@/shared/constants/categories';
 
 interface ProductCardProps {
   product: Product;
@@ -8,6 +9,8 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onAddToCart }: ProductCardProps) {
+  // Find the category label in Spanish
+  const categoryLabel = PRODUCT_CATEGORIES.find(cat => cat.value === product.category)?.label || product.category;
   return (
     <div className="bg-white rounded-lg shadow hover:shadow-lg transition border border-gray-200">
       {/* Image placeholder */}
@@ -30,7 +33,9 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
             {product.name}
           </h3>
           {product.category && (
-            <p className="text-xs text-text-secondary mt-1">{product.category}</p>
+            <span className="inline-block mt-2 px-3 py-1 bg-primary text-white rounded-full text-xs font-semibold">
+              {categoryLabel}
+            </span>
           )}
         </div>
 

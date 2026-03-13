@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useState } from 'react';
+import { InputHTMLAttributes, useState, useRef, useEffect } from 'react';
 
 interface ImageUploadProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: string;
@@ -16,12 +16,22 @@ export function ImageUpload({
 }: ImageUploadProps) {
   const [preview, setPreview] = useState<string | null>(initialPreview || null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isNewImage, setIsNewImage] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Sync external preview prop with internal state
+  useEffect(() => {
+    if (initialPreview && initialPreview !== preview && !isNewImage) {
+      setPreview(initialPreview);
+    }
+  }, [initialPreview]);
 
   const handleFile = (file: File) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const result = e.target?.result as string;
       setPreview(result);
+      setIsNewImage(true);
       onImageChange?.(file, result);
     };
     reader.readAsDataURL(file);
@@ -54,6 +64,10 @@ export function ImageUpload({
 
   const handleClear = () => {
     setPreview(null);
+    setIsNewImage(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
     onImageChange?.(null, null);
   };
 
@@ -90,6 +104,7 @@ export function ImageUpload({
           } ${error ? 'border-status-danger' : ''}`}
         >
           <input
+            ref={fileInputRef}
             type="file"
             accept="image/*"
             onChange={handleChange}
@@ -98,12 +113,7 @@ export function ImageUpload({
           />
 
           <div
-            onClick={() => {
-              const input = document.querySelector(
-                'input[type="file"]'
-              ) as HTMLInputElement;
-              input?.click();
-            }}
+            onClick={() => fileInputRef.current?.click()}
             className="flex flex-col items-center justify-center w-full h-full"
           >
             <svg
