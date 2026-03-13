@@ -1,73 +1,83 @@
-# React + TypeScript + Vite
+# ShopTest - Aplicación de Tienda en Línea
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descripción del Proyecto
 
-Currently, two official plugins are available:
+**ShopTest** es una aplicación full-stack de e-commerce desarrollada como prueba técnica de StrappBerry. Permite a los clientes navegar productos, agregar al carrito, realizar compras con pago mediante Mercado Pago, y consultar su historial de transacciones.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Stack Tecnológico
 
-## React Compiler
+**Frontend:**
+- React 19 + TypeScript
+- Vite 6.2
+- Tailwind CSS 4
+- React Query 5
+- React Hook Form 7
+- Axios 1.10
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+**Backend:**
+- Laravel 12
+- PHP 8.2
+- JWT Authentication
+- Pest 4 (Testing)
+- MySQL
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Credenciales de Desarrollo
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Usuario Admin
+```
+Email: admin@example.com
+Password: 1234
+Role: admin
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Usuario Cliente
 ```
+Email: customer@example.com
+Password: 1234
+Role: customer
+```
+
+---
+
+## 💳 Tarjeta de Prueba Mercado Pago
+
+Usa esta tarjeta para realizar pagos en desarrollo:
+
+| Campo | Valor |
+|-------|-------|
+| **Número** | 5474 9254 3267 0366 |
+| **Titular** | APRO |
+| **Vencimiento** | 05/26 |
+| **CVV** | 123 |
+
+> ⚠️ En desarrollo, los pagos se simulan localmente. No requieren autenticación de pago en tiempo real.
+
+---
+
+## 🚀 Inicio Rápido
+
+✅ Autenticación JWT
+✅ Catálogo de productos con búsqueda y filtrado
+✅ Carrito de compras persistente
+✅ Checkout seguro con Mercado Pago
+✅ Historial de compras (Mis Compras)
+✅ Panel de transacciones con estado en tiempo real
+✅ Gestión de productos (admin)
+✅ Paginación y responsive design
+
+---
+
+## 🔗 Rutas Principales
+
+### Cliente
+- `/shop` - Catálogo de productos
+- `/checkout` - Carrito y pago
+- `/purchases` - Mis compras
+- `/transactions` - Transacciones Mercado Pago
+
+### Admin
+- `/products` - Gestión de productos
+- `/products/create` - Crear producto
+- `/products/:id/edit` - Editar producto
