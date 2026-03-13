@@ -99,7 +99,7 @@ export function Login() {
 
                 {/* Footer */}
                 <div className="mt-6 pt-6 border-t border-gray-300 text-center text-xs text-text-secondary">
-                    <p>Cedric Ramírez | correo@candidato.com</p>
+                    <p>Cedric Ramírez | cedricrmz@outlook.com</p>
                 </div>
             </div>
         </div>
